@@ -15,6 +15,7 @@ public class Perjalanan {
 
     private ArrayList<Pelanggan> pelanggan = new ArrayList();
     private PaketWisata paket;
+    int jum=0;
 
     public Perjalanan(PaketWisata pkt) {
         setPaket(pkt);
@@ -23,9 +24,15 @@ public class Perjalanan {
     public void addPelanggan(Pelanggan p) {
         if (pelanggan.size() < 40) {
             pelanggan.add(p);
+            jum++;
+            
         } else {
             System.out.println("Kuota Pelanggan Penuh");
         }
+    }
+    
+    public int getJumlahPelanggan(){
+        return jum;
     }
     
     public void setPaket(PaketWisata pw) {
