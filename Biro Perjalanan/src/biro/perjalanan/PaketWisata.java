@@ -38,6 +38,14 @@ public class PaketWisata {
 			HargaPaket=HargaPaket+tw.getHarga();
 		}
 	}
+        
+        public long getIdPaket(){
+            return idPaket;
+        }
+        
+        public void setIdPaket(long idPaket){
+            this.idPaket=idPaket;
+        }
 	
 	public TempatWisata getTempatWisata1(int idx){
 		return daftarTujuanWisata.get(idx);
