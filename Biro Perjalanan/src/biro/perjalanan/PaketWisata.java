@@ -12,14 +12,15 @@ package biro.perjalanan;
 import java.util.ArrayList;
 public class PaketWisata {
 	private ArrayList<TempatWisata> daftarTujuanWisata;
-	private int HargaPaket;
+	private long HargaPaket;
 	private int nTempatWisata;
 	private int maxTempatWisata;
-	
-	public PaketWisata(int HargaPaket, int maxTempatWisata){
+	private long idPaket;
+        
+	public PaketWisata(long idPaket, int maxTempatWisata){
 		daftarTujuanWisata = new ArrayList();
 		this.maxTempatWisata=maxTempatWisata;
-		this.HargaPaket=HargaPaket;
+		this.idPaket=idPaket;
 	}
 	
 	public void addTempatWisata(TempatWisata w){
@@ -33,9 +34,8 @@ public class PaketWisata {
 	}
 	
 	public void hitungHarga(){
-		long harga=0;
 		for (TempatWisata tw : daftarTujuanWisata){
-			harga=harga+tw.getHarga();
+			HargaPaket=HargaPaket+tw.getHarga();
 		}
 	}
 	
@@ -57,6 +57,7 @@ public class PaketWisata {
 		for(TempatWisata tws : daftarTujuanWisata){
 			if(tws.getId()==id){
 				tws=null;
+                                nTempatWisata--;
 			}
 		}
 	}
