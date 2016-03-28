@@ -5,14 +5,18 @@
  */
 package biro.perjalanan;
 
+import java.io.IOException;
+
 /**
  *
  * @author NVLWL
  */
 public class Driver {
 
-    public static void main(String[] args) {
-        Petugas P1 = new Petugas("Zul", 1, "Bandung");
+    public static void main(String[] args) throws IOException {
+        ConsoleApplication a = new ConsoleApplication();
+        a.mainMenu();
+        /*Petugas P1 = new Petugas("Zul", 1, "Bandung");
         Pelanggan Pel1 = new Pelanggan("Jaja", 201, "Bandung");
         Pelanggan Pel2 = new Pelanggan("Bejo", 202, "Bandung");
         Pelanggan Pel3 = new Pelanggan("Dadang", 203, "Bandung");
@@ -54,6 +58,6 @@ public class Driver {
             for (int m = 0; m < Per1[k].jum; m++) {
                 System.out.println("Pelanggan "+(m+1)+" :" + Per1[k].getPelanggan(m).getNama());
             }
-        }
+        }*/
     }
 }

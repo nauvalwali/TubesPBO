@@ -16,9 +16,20 @@ public class Perjalanan {
     private ArrayList<Pelanggan> pelanggan = new ArrayList();
     private PaketWisata paket;
     int jum=0;
+    long noPerjalanan;
 
-    public Perjalanan(PaketWisata pkt) {
+    public long getNoPerjalanan() {
+        return noPerjalanan;
+    }
+
+    public void setNoPerjalanan(long noPerjalanan) {
+        this.noPerjalanan = noPerjalanan;
+        
+    }
+
+    public Perjalanan(long noPerjalanan, PaketWisata pkt) {
         setPaket(pkt);
+        setNoPerjalanan(noPerjalanan);
     }
     
     public void addPelanggan(Pelanggan p) {
