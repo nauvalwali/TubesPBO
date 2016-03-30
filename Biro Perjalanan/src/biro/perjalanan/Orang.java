@@ -9,7 +9,8 @@ package biro.perjalanan;
  *
  * @author NVLWL
  */
-public abstract class Orang {
+import java.io.Serializable;
+public abstract class Orang implements Serializable {
 
     private String nama;
     private long id;

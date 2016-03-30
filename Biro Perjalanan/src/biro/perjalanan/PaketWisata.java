@@ -9,8 +9,9 @@ package biro.perjalanan;
  *
  * @author Reza Amelia
  */
+import java.io.Serializable;
 import java.util.ArrayList;
-public class PaketWisata {
+public class PaketWisata implements Serializable {
 	private ArrayList<TempatWisata> daftarTujuanWisata;
 	private long HargaPaket;
 	private int nTempatWisata;

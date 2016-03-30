@@ -5,9 +5,12 @@
  */
 package biro.perjalanan;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
@@ -18,19 +21,24 @@ import java.util.Scanner;
  * @author Reza Amelia
  */
 public class ConsoleApplication {
-    private ArrayList<Petugas> daftarPetugas = new ArrayList();
-    private ArrayList<Pelanggan> daftarPelanggan = new ArrayList();
+
+    private ArrayList<Petugas> daftarPetugas = new ArrayList<Petugas>();
+    private ArrayList<Pelanggan> daftarPelanggan = new ArrayList<Pelanggan>();
     private ArrayList<Perjalanan> daftarPerjalanan = new ArrayList<Perjalanan>();
     private ArrayList<PaketWisata> daftarPaketWisata = new ArrayList();
     private ArrayList<TempatWisata> daftarTempatWisata = new ArrayList();
-    int a;
+    //int a;
 
-    public ArrayList getListPaket() {
-        return daftarPaketWisata;
+    public void addPetugas(Petugas p) {
+        daftarPetugas.add(p);
     }
 
-    public ArrayList getListTempat() {
-        return daftarTempatWisata;
+    public void addPelanggan(Pelanggan pel) {
+        daftarPelanggan.add(pel);
+    }
+
+    public void addTempat(TempatWisata tw) {
+        daftarTempatWisata.add(tw);
     }
 
     public void insertPetugas(String nama, long id, String alamat) {
@@ -42,21 +50,36 @@ public class ConsoleApplication {
         }
     }
 
-    public Petugas getPetugas(long id) {
-        Petugas a = null;
-        for (int i = 0; i < 5; i++) {
-            if (daftarPetugas.get(i).getId() == id) {
-                a = daftarPetugas.get(i);
+    public Petugas getPetugas(long id) throws FileNotFoundException, IOException, ClassNotFoundException {
+        Petugas p1 = null;
+        FileInputStream fis = new FileInputStream("Data Petugas.txt");
+        ObjectInputStream ois = new ObjectInputStream(fis);
+        ArrayList<Petugas> ptgs = (ArrayList<Petugas>) ois.readObject();
+        while (ois.readObject() != null) {
+            for (int i = 0; i < daftarPetugas.size(); i++) {
+                if (daftarPetugas.get(i).getId() == id) {
+                    p1 = daftarPetugas.get(i);
+                }
             }
         }
-        return a;
-
+        return p1;
     }
 
-    public void deletePetugas(long id) {
-        for (int i = 0; i < daftarPetugas.size(); i++) {
-            if (daftarPetugas.get(i).getId() == id) {
-                daftarPetugas.remove(i);
+    public void deletePetugas(long id) throws FileNotFoundException, IOException, ClassNotFoundException {
+        FileInputStream fis = new FileInputStream("Data Petugas.txt");
+        ObjectInputStream ois = new ObjectInputStream(fis);
+        ArrayList<Petugas> ptgs = (ArrayList<Petugas>) ois.readObject();
+        File data = new File("Data Petugas.dat");
+        if (ois.readObject() == null) {
+            System.out.println("Data tidak ada !");
+        } 
+        else {
+            while (ois.readObject() != null) {
+                for (int i = 0; i < daftarPetugas.size(); i++) {
+                    if (daftarPetugas.get(i).getId() == id) {
+                        daftarPetugas.remove(i);
+                    }
+                }
             }
         }
     }
@@ -71,21 +94,35 @@ public class ConsoleApplication {
         }
     }
 
-    public Pelanggan getPelanggan(long id) {
-        Pelanggan a = null;
-        for (int i = 0; i < 5; i++) {
-            if (daftarPelanggan.get(i).getId() == id) {
-                a = daftarPelanggan.get(i);
+    public Pelanggan getPelanggan(long id) throws FileNotFoundException, IOException, ClassNotFoundException {
+        Pelanggan pel1 = null;
+        FileInputStream fis = new FileInputStream("Data Pelanggan.txt");
+        ObjectInputStream ois = new ObjectInputStream(fis);
+        ArrayList<Pelanggan> plgn = (ArrayList<Pelanggan>) ois.readObject();
+        while (ois.readObject() != null) {
+            for (int i = 0; i < daftarPelanggan.size(); i++) {
+                if (daftarPelanggan.get(i).getId() == id) {
+                    pel1 = daftarPelanggan.get(i);
+                }
             }
         }
-        return a;
-
+        return pel1;
     }
 
-    public void deletePelanggan(long id) {
-        for (int i = 0; i < daftarPelanggan.size(); i++) {
-            if (daftarPelanggan.get(i).getId() == id) {
-                daftarPelanggan.remove(i);
+    public void deletePelanggan(long id) throws FileNotFoundException, IOException, ClassNotFoundException {
+        FileInputStream fis = new FileInputStream("Data Pelanggan.txt");
+        ObjectInputStream ois = new ObjectInputStream(fis);
+        ArrayList<Pelanggan> plgn = (ArrayList<Pelanggan>) ois.readObject();
+        if (ois.readObject() == null) {
+            System.out.println("Data tidak ada !");
+        } 
+        else {
+            while (ois.readObject() != null) {
+                for (int i = 0; i < daftarPelanggan.size(); i++) {
+                    if (daftarPelanggan.get(i).getId() == id) {
+                        daftarPelanggan.remove(i);
+                    }
+                }
             }
         }
     }
@@ -105,20 +142,32 @@ public class ConsoleApplication {
         }
     }
 
-    public Perjalanan getPerjalanan(long noPerjalanan) {
-        Perjalanan a = null;
-        for (int i = 0; i < 5; i++) {
-            if (daftarPerjalanan.get(i).getNoPerjalanan() == noPerjalanan) {
-                a = daftarPerjalanan.get(i);
+    public Perjalanan getPerjalanan(long noPerjalanan) throws FileNotFoundException, IOException, ClassNotFoundException {
+        Perjalanan per = null;
+        FileInputStream fis = new FileInputStream("Data Perjalanan.txt");
+        ObjectInputStream ois = new ObjectInputStream(fis);
+        while (ois.readObject() != null) {
+            for (int i = 0; i < 5; i++) {
+                if (daftarPerjalanan.get(i).getNoPerjalanan() == noPerjalanan) {
+                    per = daftarPerjalanan.get(i);
+                }
             }
         }
-        return a;
+        return per;
     }
 
-    public void deletePerjalanan(long noPerjalanan) {
-        for (int i = 0; i < daftarPerjalanan.size(); i++) {
-            if (daftarPerjalanan.get(i).getNoPerjalanan() == noPerjalanan) {
-                daftarPerjalanan.remove(i);
+    public void deletePerjalanan(long noPerjalanan) throws FileNotFoundException, IOException, ClassNotFoundException {
+        FileInputStream fis = new FileInputStream("Data Perjalanan.txt");
+        ObjectInputStream ois = new ObjectInputStream(fis);
+        if (ois.readObject() == null) {
+            System.out.println("Data tsb tidak ada !");
+        } else {
+            while (ois.readObject() != null) {
+                for (int i = 0; i < daftarPerjalanan.size(); i++) {
+                    if (daftarPerjalanan.get(i).getNoPerjalanan() == noPerjalanan) {
+                        daftarPerjalanan.remove(i);
+                    }
+                }
             }
         }
     }
@@ -138,27 +187,39 @@ public class ConsoleApplication {
         }
     }
 
-    public PaketWisata getPaketWisata(long idPaket) {
-        PaketWisata a = null;
-        for (int i = 0; i < 5; i++) {
-            if (daftarPaketWisata.get(i).getIdPaket() == idPaket) {
-                a = daftarPaketWisata.get(i);
+    public PaketWisata getPaketWisata(long idPaket) throws FileNotFoundException, IOException, ClassNotFoundException {
+        PaketWisata pak = null;
+        FileInputStream fis = new FileInputStream("Data Paket.txt");
+        ObjectInputStream ois = new ObjectInputStream(fis);
+        while (ois.readObject() != null) {
+            for (int i = 0; i < 5; i++) {
+                if (daftarPaketWisata.get(i).getIdPaket() == idPaket) {
+                    pak = daftarPaketWisata.get(i);
+                }
             }
         }
-        return a;
+        return pak;
     }
 
-    public void deletePaketWisata(long idPaket) {
-        for (int i = 0; i < daftarPaketWisata.size(); i++) {
-            if (daftarPaketWisata.get(i).getIdPaket() == idPaket) {
-                daftarPaketWisata.remove(i);
+    public void deletePaketWisata(long idPaket) throws FileNotFoundException, IOException, ClassNotFoundException {
+        FileInputStream fis = new FileInputStream("Data Paket.txt");
+        ObjectInputStream ois = new ObjectInputStream(fis);
+        if (ois.readObject() == null) {
+            System.out.println("Data tsb tidak ada !");
+        } else {
+            while (ois.readObject() != null) {
+                for (int i = 0; i < daftarPaketWisata.size(); i++) {
+                    if (daftarPaketWisata.get(i).getIdPaket() == idPaket) {
+                        daftarPaketWisata.remove(i);
+                    }
+                }
             }
         }
     }
 
     public void viewPaketWisata() {
         for (int i = 0; i < daftarPaketWisata.size(); i++) {
-            System.out.println(getListPaket());
+            System.out.println("");
         }
     }
 
@@ -177,27 +238,57 @@ public class ConsoleApplication {
         }
     }
 
-    public TempatWisata getTempatWisata(long id) {
-        TempatWisata a = null;
-        for (int i = 0; i < 5; i++) {
-            if (daftarTempatWisata.get(i).getId() == id) {
-                a = daftarTempatWisata.get(i);
+    public TempatWisata getTempatWisata(long id) throws FileNotFoundException, IOException, ClassNotFoundException {
+        TempatWisata tem = null;
+        FileInputStream fis = new FileInputStream("Data Tempat.txt");
+        ObjectInputStream ois = new ObjectInputStream(fis);
+        while (ois.readObject() != null) {
+            for (int i = 0; i < 5; i++) {
+                if (daftarTempatWisata.get(i).getId() == id) {
+                    tem = daftarTempatWisata.get(i);
+                }
             }
         }
-        return a;
+        return tem;
     }
 
-    public void deleteTempatWisata(long id) {
-        for (int i = 0; i < daftarTempatWisata.size(); i++) {
-            if (daftarTempatWisata.get(i).getId() == id) {
-                daftarTempatWisata.remove(i);
+    public void deleteTempatWisata(long id) throws FileNotFoundException, IOException, ClassNotFoundException {
+        FileInputStream fis = new FileInputStream("Data Tempat.txt");
+        ObjectInputStream ois = new ObjectInputStream(fis);
+        if (ois.readObject() == null) {
+            System.out.println("Data tsb tidak ada !");
+        } else {
+            while (ois.readObject() != null) {
+                for (int i = 0; i < daftarTempatWisata.size(); i++) {
+                    if (daftarTempatWisata.get(i).getId() == id) {
+                        daftarTempatWisata.remove(i);
+                    }
+                }
             }
         }
     }
 
     public void viewTempatWisata() {
         for (int i = 0; i < daftarTempatWisata.size(); i++) {
-            System.out.println(getListTempat());
+            System.out.println(daftarTempatWisata.get(i).getId());
+            System.out.println(daftarTempatWisata.get(i).getNamaTempat());
+            System.out.println(daftarTempatWisata.get(i).getHarga());
+        }
+    }
+    
+    public void viewPelanggan() {
+        for (int i = 0; i < daftarPelanggan.size(); i++) {
+            System.out.println(daftarPelanggan.get(i).getId());
+            System.out.println(daftarPelanggan.get(i).getNama());
+            System.out.println(daftarPelanggan.get(i).getAlamat());
+        }
+    }
+    
+    public void viewPetugas() {
+        for (int i = 0; i < daftarPetugas.size(); i++) {
+            System.out.println(daftarPetugas.get(i).getId());
+            System.out.println(daftarPetugas.get(i).getNama());
+            System.out.println(daftarPetugas.get(i).getAlamat());
         }
     }
 
@@ -207,6 +298,14 @@ public class ConsoleApplication {
 
     public void menuViewPaketWisata() {
         viewPaketWisata();
+    }
+    
+    public void menuViewPelanggan() {
+        viewPelanggan();
+    }
+    
+    public void menuViewPetugas() {
+        viewPetugas();
     }
 
     public void menuInsertPaketWisata(long idPaket, int maxTempatWisata) throws FileNotFoundException, IOException {
@@ -225,7 +324,7 @@ public class ConsoleApplication {
         insertPelanggan(nama, id, alamat);
     }
 
-    public void menuRemovePelanggan(int id) {
+    public void menuRemovePelanggan(int id) throws IOException, FileNotFoundException, ClassNotFoundException {
         deletePelanggan(id);
     }
 
@@ -233,166 +332,173 @@ public class ConsoleApplication {
         insertPetugas(nama, id, alamat);
     }
 
-    public void menuRemovePetugas(int id) {
+    public void menuRemovePetugas(int id) throws IOException, FileNotFoundException, ClassNotFoundException {
         deletePetugas(id);
     }
 
-    public void mainMenu() throws IOException {
-
-        System.out.println("Menu");
-        System.out.println("1. Tambah Perjalanan");
-        System.out.println("2. View Paket Wisata ");
-        System.out.println("3. Tambah Paket Wisata");
-        System.out.println("4. View Tujuan Wisata");
-        System.out.println("5. Tambah Tujuan Wisata");
-        System.out.println("6. Tambah Pelanggan");
-        System.out.println("7. Remove Pelanggan");
-        System.out.println("8. Tambah Petugas");
-        System.out.println("9. Remove Petugas");
+    public void mainMenu() throws IOException, FileNotFoundException, ClassNotFoundException {
         Scanner input = new Scanner(System.in);
-        System.out.println("Masukkan Pulihan: ");
-        int pilih = input.nextInt();
-        switch (pilih) {
-            case 1:
-                long a = 0;
-                long b = 0;
-                try {
-                    System.out.println("Nomor Perjalanan: ");
-                    a = input.nextLong();
-                }catch (InputMismatchException e) {
-                    System.out.println("Input Nomor Perjalanan!");
-                }
-                try {
-                    System.out.println("Paket Wisata: ");
-                    b = input.nextLong();
-                }catch (InputMismatchException e) {
-                    System.out.println("Input Paket Wisata!");
-                }
-                menuInsertPerjalanan(a, getPaketWisata(b));
-                break;
+        int pilih;
+        do {
+            System.out.println("Menu");
+            System.out.println("1. Tambah Perjalanan");
+            System.out.println("2. View Paket Wisata ");
+            System.out.println("3. Tambah Paket Wisata");
+            System.out.println("4. View Tujuan Wisata");
+            System.out.println("5. Tambah Tujuan Wisata");
+            System.out.println("6. Tambah Pelanggan");
+            System.out.println("7. Remove Pelanggan");
+            System.out.println("8. Tambah Petugas");
+            System.out.println("9. Remove Petugas");
+            System.out.println("Masukkan Pilihan: ");
+            pilih = input.nextInt();
+            switch (pilih) {
+                case 1:
+                    long a = 0;
+                    long b = 0;
+                    try {
+                        System.out.println("Nomor Perjalanan: ");
+                        a = input.nextLong();
+                    } catch (InputMismatchException e) {
+                        System.out.println("Input Nomor Perjalanan!");
+                    }
+                    try {
+                        System.out.println("Paket Wisata: ");
+                        b = input.nextLong();
+                    } catch (InputMismatchException e) {
+                        System.out.println("Input Paket Wisata!");
+                    }
+                    //menuInsertPerjalanan(a, getPaketWisata(b));
+                    break;
 
-            case 2:
-                System.out.println("Paket Wisata");
-                menuViewPaketWisata();
+                case 2:
+                    System.out.println("Paket Wisata");
+                    menuViewPaketWisata();
+                    break;
+                    
 
-            case 3:
-                long c = 0;
-                int d = 0;
-                try {
-                    System.out.println("Id: ");
-                    c = input.nextLong();
-                } catch (InputMismatchException e) {
-                    System.out.println("Input Id!");
-                }
-                try {
-                    System.out.println("Max Tempat Wisata: ");
-                    d = input.nextInt();
-                }catch (InputMismatchException e) {
-                    System.out.println("Input Max Tempat Wisata!");
-                }
-                menuInsertPaketWisata(c, d);
-                break;
+                case 3:
+                    long c = 0;
+                    int d = 0;
+                    try {
+                        System.out.println("Id: ");
+                        c = input.nextLong();
+                    } catch (InputMismatchException e) {
+                        System.out.println("Input Id!");
+                    }
+                    try {
+                        System.out.println("Max Tempat Wisata: ");
+                        d = input.nextInt();
+                    } catch (InputMismatchException e) {
+                        System.out.println("Input Max Tempat Wisata!");
+                    }
+                    menuInsertPaketWisata(c, d);
+                    break;
 
-            case 4:
-                System.out.println("Tempat Wisata");
-                menuViewTempatWisata();
+                case 4:
+                    System.out.println("");
+                    System.out.println("Tempat Wisata");
+                    menuViewTempatWisata();
+                    System.out.println("");
+                    break;
+                    
+                case 5:
+                    String x = null;
+                    long f = 0;
+                    long g = 0;
+                    try {
+                        System.out.println("Nama Tempat: ");
+                        x = input.next();
+                    } catch (InputMismatchException e) {
+                        System.out.println("Input Nama Tempat!");
+                    }
+                    try {
+                        System.out.println("Masukkan Harga: ");
+                        f = input.nextLong();
+                    } catch (InputMismatchException e) {
+                        System.out.println("Input Harga!");
+                    }
+                    try {
+                        System.out.println("Id: ");
+                        g = input.nextLong();
+                    } catch (InputMismatchException e) {
+                        System.out.println("Input Id!");
+                    }
+                    menuInsertTempatWisata(x, f, g);
+                    break;
 
-            case 5:
-                String x = null;
-                long f = 0;
-                long g = 0;
-                try {
-                    System.out.println("Nama Tempat: ");
-                    x = input.next();
-                }catch (InputMismatchException e) {
-                    System.out.println("Input Nama Tempat!");
-                }
-                try {
-                    System.out.println("Masukkan Harga: ");
-                    f = input.nextLong();
-                }catch (InputMismatchException e) {
-                    System.out.println("Input Harga!");
-                }
-                try {
-                    System.out.println("Id: ");
-                    g = input.nextLong();
-                }catch (InputMismatchException e) {
-                    System.out.println("Input Id!");
-                }
-                menuInsertTempatWisata(x, f, g);
-                break;
+                case 6:
+                    String h = null;
+                    long i = 0;
+                    String j = null;
+                    try {
+                        System.out.println("Nama: ");
+                        h = input.next();
+                    } catch (InputMismatchException e) {
+                        System.out.println("Input Nama!");
+                    }
+                    try {
+                        System.out.println("Id: ");
+                        i = input.nextLong();
+                    } catch (InputMismatchException e) {
+                        System.out.println("Input Id!");
+                    }
+                    try {
+                        System.out.println("Alamat: ");
+                        j = input.next();
+                    } catch (InputMismatchException e) {
+                        System.out.println("Input Alamat!");
+                    }
+                    menuInsertPelanggan(h, i, j);
+                    break;
 
-            case 6:
-                String h = null;
-                long i = 0;
-                String j = null;
-                try {
-                    System.out.println("Nama: ");
-                    h = input.next();
-                }catch (InputMismatchException e) {
-                    System.out.println("Input Nama!");
-                }
-                try {
-                    System.out.println("Id: ");
-                    i = input.nextLong();
-                }catch (InputMismatchException e) {
-                    System.out.println("Input Id!");
-                }
-                try {
-                    System.out.println("Alamat: ");
-                    j = input.next();
-                }catch (InputMismatchException e) {
-                    System.out.println("Input Alamat!");
-                }
-                menuInsertPelanggan(h, i, j);
-                break;
+                case 7:
+                    int k = 0;
+                    try {
+                        System.out.println("Id: ");
+                        k = input.nextInt();
+                    } catch (InputMismatchException e) {
+                        System.out.println("Input Id!");
+                    }
+                    menuRemovePelanggan(k);
+                    break;
 
-            case 7:
-                int k = 0;
-                try {
-                    System.out.println("Id: ");
-                    k = input.nextInt();
-                }catch (InputMismatchException e) {
-                    System.out.println("Input Id!");
-                }
-                menuRemovePelanggan(k);
-                break;
+                case 8:
+                    String l = null;
+                    long m = 0;
+                    String n = null;
+                    try {
+                        System.out.println("Nama: ");
+                        l = input.next();
+                    } catch (InputMismatchException e) {
+                        System.out.println("Input Nama!");
+                    }
+                    try {
+                        System.out.println("Id: ");
+                        m = input.nextLong();
+                    } catch (InputMismatchException e) {
+                        System.out.println("Input Id!");
+                    }
+                    try {
+                        System.out.println("Alamat: ");
+                        n = input.next();
+                    } catch (InputMismatchException e) {
+                        System.out.println("Input Alamat!");
+                    }
+                    menuInsertPetugas(l, m, n);
+                    break;
 
-            case 8:
-                String l = null;
-                long m = 0;
-                String n = null;
-                try {
-                    System.out.println("Nama: ");
-                    l = input.next();
-                }catch (InputMismatchException e) {
-                    System.out.println("Input Nama!");
-                }
-                try {
-                    System.out.println("Id: ");
-                    m = input.nextLong();
-                }catch (InputMismatchException e) {
-                    System.out.println("Input Id!");
-                }
-                try {
-                    System.out.println("Alamat: ");
-                    n = input.next();
-                }catch (InputMismatchException e) {
-                    System.out.println("Input Alamat!");
-                }
-                menuInsertPetugas(l, m, n);
-                break;
-
-            case 9:
-                int o = 0;
-                try {
-                    System.out.println("Id: ");
-                    o = input.nextInt();
-                }catch (InputMismatchException e) {
-                    System.out.println("Input Id!");
-                }
-                menuRemovePetugas(o);
-                break;
-        }
+                case 9:
+                    int o = 0;
+                    try {
+                        System.out.println("Id: ");
+                        o = input.nextInt();
+                    } catch (InputMismatchException e) {
+                        System.out.println("Input Id!");
+                    }
+                    menuRemovePetugas(o);
+                    break;
+            }
+        } while (pilih != 0);
     }
 }

@@ -5,11 +5,13 @@
  */
 package biro.perjalanan;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Reza Amelia
  */
-public class TempatWisata{
+public class TempatWisata implements Serializable {
 	private String namaTempat;
 	private long harga;
 	private long id;

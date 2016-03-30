@@ -5,6 +5,7 @@
  */
 package biro.perjalanan;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 /**
@@ -13,7 +14,7 @@ import java.io.IOException;
  */
 public class Driver {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, FileNotFoundException, ClassNotFoundException {
         ConsoleApplication a = new ConsoleApplication();
         a.mainMenu();
         /*Petugas P1 = new Petugas("Zul", 1, "Bandung");
