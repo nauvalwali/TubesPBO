@@ -217,12 +217,6 @@ public class ConsoleApplication {
         }
     }
 
-    public void viewPaketWisata() {
-        for (int i = 0; i < daftarPaketWisata.size(); i++) {
-            System.out.println("");
-        }
-    }
-
     public void insertTempatWisata(String namaTempat, long harga, long id) throws FileNotFoundException, IOException {
         TempatWisata tw = new TempatWisata(namaTempat, harga, id);
         FileOutputStream fos = new FileOutputStream("Data Tempat Wisata.txt");
@@ -267,12 +261,36 @@ public class ConsoleApplication {
             }
         }
     }
+    
+    public void assignPaket(TempatWisata tem, long idPaket){
+        for (PaketWisata pak : daftarPaketWisata){
+            if(pak.getIdPaket() == idPaket){
+                pak.addTempatWisata(tem);
+            }
+        }
+    }
+    
+    public void assignPerjalanan(PaketWisata pak, long noPerjalanan){
+        for (Perjalanan per : daftarPerjalanan){
+            if(per.getNoPerjalanan() == noPerjalanan){
+                per.setPaket(pak);
+            }
+        }
+    }
 
     public void viewTempatWisata() {
         for (int i = 0; i < daftarTempatWisata.size(); i++) {
             System.out.println(daftarTempatWisata.get(i).getId());
             System.out.println(daftarTempatWisata.get(i).getNamaTempat());
             System.out.println(daftarTempatWisata.get(i).getHarga());
+        }
+    }
+    
+     public void viewPaketWisata() {
+        long b = 0;
+        for (int i = 0; i < daftarPaketWisata.size(); i++) {
+            System.out.println(daftarPaketWisata.get(i).getIdPaket());
+            System.out.println(daftarPaketWisata.get(i).getTempatWisata2(b));
         }
     }
     
@@ -350,6 +368,8 @@ public class ConsoleApplication {
             System.out.println("7. Remove Pelanggan");
             System.out.println("8. Tambah Petugas");
             System.out.println("9. Remove Petugas");
+            System.out.println("10. View Petugas");
+            System.out.println("11. View Pelanggan");
             System.out.println("Masukkan Pilihan: ");
             pilih = input.nextInt();
             switch (pilih) {
@@ -362,13 +382,6 @@ public class ConsoleApplication {
                     } catch (InputMismatchException e) {
                         System.out.println("Input Nomor Perjalanan!");
                     }
-                    try {
-                        System.out.println("Paket Wisata: ");
-                        b = input.nextLong();
-                    } catch (InputMismatchException e) {
-                        System.out.println("Input Paket Wisata!");
-                    }
-                    //menuInsertPerjalanan(a, getPaketWisata(b));
                     break;
 
                 case 2:
@@ -380,6 +393,7 @@ public class ConsoleApplication {
                 case 3:
                     long c = 0;
                     int d = 0;
+                    long idper = 0;
                     try {
                         System.out.println("Id: ");
                         c = input.nextLong();
@@ -392,7 +406,15 @@ public class ConsoleApplication {
                     } catch (InputMismatchException e) {
                         System.out.println("Input Max Tempat Wisata!");
                     }
-                    menuInsertPaketWisata(c, d);
+                    PaketWisata pak = new PaketWisata(c, d);
+                    daftarPaketWisata.add(pak);
+                    try {
+                        System.out.println("Id Perjalanan: ");
+                        idper = input.nextLong();
+                    } catch (InputMismatchException e) {
+                        System.out.println("Input Nomor Perjalanan!");
+                    }
+                    assignPerjalanan(pak, idper);
                     break;
 
                 case 4:
@@ -406,6 +428,7 @@ public class ConsoleApplication {
                     String x = null;
                     long f = 0;
                     long g = 0;
+                    long idpak = 0;
                     try {
                         System.out.println("Nama Tempat: ");
                         x = input.next();
@@ -424,7 +447,15 @@ public class ConsoleApplication {
                     } catch (InputMismatchException e) {
                         System.out.println("Input Id!");
                     }
-                    menuInsertTempatWisata(x, f, g);
+                    TempatWisata tem = new TempatWisata(x, f, g);
+                    daftarTempatWisata.add(tem);
+                    try {
+                        System.out.println("Id Paket Wisata: ");
+                        idpak = input.nextLong();
+                    } catch (InputMismatchException e) {
+                        System.out.println("Input ID Paket Wisata!");
+                    }
+                    assignPaket(tem, idpak);
                     break;
 
                 case 6:
@@ -497,6 +528,14 @@ public class ConsoleApplication {
                         System.out.println("Input Id!");
                     }
                     menuRemovePetugas(o);
+                    break;
+                case 10:
+                    System.out.println("Petugas");
+                    menuViewPetugas();
+                    break;
+                case 11:
+                    System.out.println("Pelanggan");
+                    menuViewPelanggan();
                     break;
             }
         } while (pilih != 0);
